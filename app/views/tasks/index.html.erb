@@ -1,0 +1,41 @@
+<% if logged_in? %>
+
+
+    <h1>Blue Book</h1>
+     <h3>Welcome, <%= current_user.username %></h3>
+     <h3>Welcome, <%= current_user.id %></h3>
+     <table>
+
+    <% if @task != nil %>
+      <tr>
+        <th>Task</th>
+        <th>Detail</th>
+        <th>Due Date</th>
+        <th>Status</th>
+      </tr>
+
+      <% @task.each do |t| %>
+      <tr>
+        <td><%= t.task %></td>
+        <td><%= t.detail %></td>
+        <td><%= t.due_date %></td>
+        <td><%= t.completed %></td>
+      </tr>
+      <% end -%>
+      </table>
+      
+      <% else %>
+       <p>There is no task! </p>
+
+       <%= link_to "Add new task", new_task_path %>
+      <% end %>
+      </br>
+
+
+    <%= link_to "Log out", logout_path %><p> to end your session!</p>
+ 
+<% else %>
+
+  <h1>What is blue book?</h1>
+  <%= link_to "Log in", login_path %><p> to find out more!</p>
+<% end -%>

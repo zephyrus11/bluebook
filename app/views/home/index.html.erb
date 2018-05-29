@@ -1,0 +1,8 @@
+<title>Blue Book</title>
+
+<h1>What is blue book?</h1>
+<%= link_to "Log in", login_path %><p> to find out more!</p>
+
+<% if logged_in? %>
+<%= link_to "Log out", logout_path %><p> to end your session!</p>
+<% end %>
