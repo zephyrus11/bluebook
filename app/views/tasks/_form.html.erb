@@ -11,6 +11,8 @@
     </div>
   <% end %>
 
+  <%= image_tag @task.images.url %>
+
   <div class="field">
     <%= f.label :task %>
     <%= f.text_field :task %>

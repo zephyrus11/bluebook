@@ -18,6 +18,10 @@ class UsersController < ApplicationController
   	end
   end
 
+  def picture
+  	x = Unirest.get("https://robohash.org/#{username}")
+  	x.save
+  end
 
   private
 

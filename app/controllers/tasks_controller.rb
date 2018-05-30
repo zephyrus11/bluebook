@@ -2,7 +2,12 @@ class TasksController < ApplicationController
 
 	def index
 		@task = Task.all
-		
+		if params[:search]
+		  @task = Task.search(params[:search]).order("created_at DESC")
+		else
+		  @task = Task.all.order("created_at DESC")
+		end
+				
 	end
 
 	def new
@@ -21,21 +26,25 @@ class TasksController < ApplicationController
 
 	def edit
 		@task = Task.find(params[:id])
-		authorize! :edit, @task
+		
 		
 	end
 
 	def update
 		@task = Task.find(params[:id])
-		@task.assign_attributes(task_params)
-		authorize! :update, @task
+		
+		@task.update(task_params)
+        redirect_to tasks_url, notice: 'Task was successfully updated.'
 		save_task
 	end
 
 	def destroy
 		@task = Task.find(params[:id])
-		authorize! :destroy, @task
 		@task.destroy
+		# respond_to do |format|
+  #     	format.js { render "destroy", :locals => {:task => @task}}
+     	redirect_to tasks_url, notice: 'Task was successfully destroyed.' 
+		
 		@tasks = Task.all
 	end
 
@@ -51,6 +60,6 @@ class TasksController < ApplicationController
 	end
 
 	def task_params
-		params.require(:task).permit(:task, :detail, :due_date, :completed)
+		params.require(:task).permit(:task, :detail, :due_date, :completed, :images)
 	end
 end

@@ -12,6 +12,11 @@
       <%= f.password_field :password, class: 'form-control' %>
 
       <%= f.submit "Log in", class: "btn btn-primary" %>
+
+      <hr>
+
+      <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+    
     <% end %>
 
     <p>New user? <%= link_to "Sign up now!", signup_path %></p>

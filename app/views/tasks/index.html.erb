@@ -3,7 +3,7 @@
 
     <h1>Blue Book</h1>
      <h3>Welcome, <%= current_user.username %></h3>
-     <h3>Welcome, <%= current_user.id %></h3>
+
      <table>
 
     <% if @task != nil %>
@@ -12,6 +12,8 @@
         <th>Detail</th>
         <th>Due Date</th>
         <th>Status</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
 
       <% @task.each do |t| %>
@@ -20,9 +22,14 @@
         <td><%= t.detail %></td>
         <td><%= t.due_date %></td>
         <td><%= t.completed %></td>
+
+        <td><%= link_to "Edit", edit_task_path(t.id) %></td>
+        <td><%= link_to "Delete", task_path(t.id), method: :Delete, remote: true, data: { confirm: 'Are you sure?' } %></td>
+        
       </tr>
       <% end -%>
       </table>
+       <%= link_to "Add new task", new_task_path %>
       
       <% else %>
        <p>There is no task! </p>
@@ -32,10 +39,11 @@
       </br>
 
 
-    <%= link_to "Log out", logout_path %><p> to end your session!</p>
+    <p><%= link_to "Log out", logout_path %> to end your session!</p>
  
 <% else %>
 
   <h1>What is blue book?</h1>
   <%= link_to "Log in", login_path %><p> to find out more!</p>
+  <%= link_to "Sign in with Google", "/auth/google_oauth2" %>
 <% end -%>
