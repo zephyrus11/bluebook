@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
 
   get "/auth/:provider/callback" => "sessions#create_from_omniauth"
-
+  post '/search', to: 'tasks#search'
   get  '/signup',  to: 'users#new'
   post '/signup',  to: 'users#create'
   get    '/login',   to: 'sessions#new'

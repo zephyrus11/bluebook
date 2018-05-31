@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
   def create
   	@user = User.new(user_params)
+    @user.picture = "https://robohash.org/#{@user.username}"
   	if @user.save
   		flash[:success] = "Welcome to bluebook"
   		redirect_to '/'
@@ -18,10 +19,10 @@ class UsersController < ApplicationController
   	end
   end
 
-  def picture
-  	x = Unirest.get("https://robohash.org/#{username}")
-  	x.save
-  end
+  # def picture
+  # 	x = Unirest.get("https://robohash.org/#{username}")
+  # 	x.save
+  # end
 
   private
 
