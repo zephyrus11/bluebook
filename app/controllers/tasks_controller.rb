@@ -48,6 +48,11 @@ class TasksController < ApplicationController
 		@tasks = Task.all
 	end
 
+	def search
+		@tasks = Task.search(params[:query])
+		render json: {tasks: @tasks}
+	end
+
 	private
 
 	def save_task

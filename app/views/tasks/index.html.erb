@@ -3,8 +3,8 @@
 
     <h1>Blue Book</h1>
      <h3>Welcome, <%= current_user.username %></h3>
-
-     <table>
+      <img src="<%= current_user.picture %>">
+     <table class="center" border="1">
 
     <% if @task != nil %>
       <tr>
@@ -29,6 +29,7 @@
       </tr>
       <% end -%>
       </table>
+
        <%= link_to "Add new task", new_task_path %>
       
       <% else %>

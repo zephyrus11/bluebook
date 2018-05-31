@@ -9,18 +9,84 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script  src="http://code.jquery.com/jquery-2.1.4.min.js%22%3E"</script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js%22%3E"</script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   </head>
 
   <body>
 
-  <%= form_tag(tasks_path, :method => "get", id: "search-form") do %>
-    <%= text_field_tag :search, params[:search], placeholder: "Search Tasks" %>
-    <%= submit_tag "Search", :name => nil %>
-  <% end %>
+  <%# form_tag(tasks_path, :method => "get", id: "search-form") do %>
+     <%# text_field_tag :search, params[:search], placeholder: "Search Tasks" %>
+    <%#submit_tag "Search", :name => nil %>
+  <%# end %>
+
+  <div class="container">
+    
+
+   <%= form_tag '/search', method: 'post', :id => 'form', :class => 'form-inline my-2 my-lg-0' do %>
+     <%= text_field_tag :query, "", :class =>'form-control mr-sm-2', list: "list" %>
+     <datalist id="list"> 
+    </datalist>
+      <%= submit_tag "Search",:id => 'searchBtn',:class => 'btn btn-outline-primary my-2 my-sm-0'%>
+  <% end %> 
 
   <% if @task.blank? %>
     <h4>There are no task containing the term <%= params[:search] %>.</h4>
   <% end %>
+    
+
+
+
     <%= yield %>
+  </div>>
   </body>
+
+<script>
+$('#query').on("keyup", function(){
+    autocomplete()
+  });
+
+
+  function autocomplete(){
+    let query = $("#query").serialize();
+    console.log(query);
+
+    $.ajax({
+      url:'/search',
+      type:'POST',
+      data: $("#form").serialize(),
+      dataType:'json',
+      error: function(request, status, error){
+        console.log(request.responseText);
+                // console.log(request.responseText);
+        console.log("sorry. Something went wrong")
+      },
+      success: function(data){
+        Array.prototype.unique = function() {
+          return this.filter(function (value, index, self) { 
+            return self.indexOf(value) === index;
+          });
+        }
+        console.log(data.tasks);
+        console.log(data.tasks.unique());
+        $("#list").html("");
+        data.tasks.unique().forEach(function(element){
+          var option = document.createElement("option");
+          var option2 = document.createElement("option");
+          option.value = element.task;
+          option2.value = element.detail;
+          // console.log(option);
+        
+          var list = $("#list");
+          list.append(option);
+          list.append(option2);
+         $('#optionVal').val(option);
+         $('#optionVal').val(option2);
+          console.log(list);
+        });
+      }
+    });
+  } 
+
+
+</script>
 </html>
